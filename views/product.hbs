@@ -1,0 +1,21 @@
+<script>
+
+let productList = document.createElement('ul')
+
+    fetch('/product', {
+        method: 'GET',
+       }).then(res => res.json())
+      .then(data => {
+        data.payload.map( product => {
+            let text = document.createTextNode(product.name)
+            let elem = document.createElement('li')
+            let img = document.createElement('img')
+            img.src = product.name+".jpg"
+            elem.appendChild(text)
+            productList.appendChild(img)
+            productList.appendChild(elem)
+        })
+
+        document.body.appendChild(productList)
+    })
+</script>

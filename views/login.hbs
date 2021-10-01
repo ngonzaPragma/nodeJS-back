@@ -1,0 +1,29 @@
+<form method="post" id="myForm">
+    <input type="email" name="email" placeholder="Your email" id="email">
+    {{!-- <input type="email" name="email" placeholder="Your email" id="email" value="nicolas.gonzalez@pragma.com.co"> --}}
+    <br><br>
+    <input type="password" name="password" placeholder="Your password" id="password">
+    {{!-- <input type="password" name="password" placeholder="Your password" id="password" value="password"> --}}
+    <br><br>
+    <input type="submit" value="Login">
+</form>
+
+
+<script type="text/javascript">
+    const formLogin = document.querySelector('#myForm')   
+
+    formLogin.addEventListener('submit', event => {
+        const formData = new FormData(document.querySelector('form'))
+        const map = new Map(formData.entries())
+        event.preventDefault()
+        fetch('http://localhost:3000/user/signin', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({email: map.get('email'), password: map.get('password')})
+        }).then(res => res.json())
+          .then(data => {
+              console.log(data)
+              localStorage.setItem('token', data.payload.token)
+          })
+    })
+</script>
